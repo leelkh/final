@@ -146,11 +146,13 @@ def make_transcript(name, wav, sr, transcript=None):
 
 def textsplit(text):
     raw_text = text
+    new_text = re.sub(r'，', ',', raw_text)
+    new_text = re.sub(r'。', '.', new_text)
     # 找出所有中文
-    chinese_matches = re.findall(r'[\u4e00-\u9fff]+', text)
+    chinese_matches = re.findall(r'[\u4e00-\u9fff]+', new_text)
 
     # 分離中英混合的字串
-    splitted_text = re.split(r'[\u4e00-\u9fff]+', text)
+    splitted_text = re.split(r'[\u4e00-\u9fff]+', new_text)
 
     # 印出分開的結果
     result = []
@@ -160,13 +162,15 @@ def textsplit(text):
             result.append(chinese_matches[i])
 
     # 移除空字串
-    result = [text.strip() for text in result if text.strip()]
+    result = [seg.strip() for seg in result if seg.strip()]
 
+    # 移除開頭和結尾的標點符號
     for i, seg in enumerate(result):
-        if seg.startswith("，") or seg.startswith("。") or seg.startswith(",") or seg.startswith("."):
+        if seg.startswith(",") or seg.startswith("."):
             result[i] = seg[1:]
-        if seg.endswith("，") or seg.endswith("。") or seg.startswith(",") or seg.startswith("."):
+        if seg.endswith(",") or seg.endswith("."):
             result[i] = seg[:-1]
+
     return result
 
 app = Flask(__name__)
