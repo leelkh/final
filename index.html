@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            test page
+        </title>
+    </head>
+    <body>
+        <hi>Upload file</hi>
+        <form method = "post" action = "/upload" enctype="multipart/form-data">
+            <input type = 'file' name = 'file' accept=".wav"><br><br>
+            <input type = 'submit' value = 'upload'>
+        </form>
+        <form method="post" action="/text">
+            <input type="text" name="text">
+            <input type="submit" value="process text">
+        </form>
+    </body>
+</html>
